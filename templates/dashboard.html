@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email Campaign Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <i class="fas fa-envelope-open-text"></i>
+            <span>EmailCamp</span>
+        </div>
+        <nav>
+            <a href="#" class="active" data-section="campaign">
+                <i class="fas fa-rocket"></i>
+                <span>Campaign</span>
+            </a>
+            <a href="#" data-section="analytics">
+                <i class="fas fa-chart-line"></i>
+                <span>Analytics</span>
+            </a>
+            <a href="#" data-section="scheduled">
+                <i class="fas fa-clock"></i>
+                <span>Scheduled</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <h1>Email Campaign Dashboard</h1>
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Admin</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Campaign Section -->
+        <section id="campaign-section" class="dashboard-section active">
+            <div class="card upload-card animate-in">
+                <h2><i class="fas fa-file-upload"></i> Data Upload</h2>
+                <div class="upload-area">
+                    <input type="file" id="csv-file" accept=".csv" hidden>
+                    <label for="csv-file" class="file-upload-btn">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>Choose CSV File</span>
+                    </label>
+                    <p class="file-name">No file chosen</p>
+                </div>
+            </div>
+
+            <div class="card template-card animate-in">
+                <h2><i class="fas fa-pen-fancy"></i> Email Template</h2>
+                <div class="template-section">
+                    <div class="template-editor">
+                        <textarea id="email-prompt" placeholder="Enter your email template..."></textarea>
+                        <div class="variable-buttons"></div>
+                        <button class="preview-button" onclick="previewEmail()">
+                            <i class="fas fa-eye"></i> Preview Email
+                        </button>
+                    </div>
+                    
+                    <!-- Preview Modal -->
+                    <div id="previewModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close-modal">&times;</span>
+                            <h2>Email Preview</h2>
+                            <div id="email-preview-content">
+                                <div class="preview-loading">
+                                    <div class="spinner"></div>
+                                    <p>Generating preview...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card schedule-card animate-in">
+                <h2><i class="fas fa-calendar-alt"></i> Schedule</h2>
+                <div class="schedule-controls">
+                    <div class="datetime-picker">
+                        <input type="datetime-local" id="schedule-time">
+                    </div>
+                    <button class="send-button" onclick="scheduleEmailCampaign()">
+                        <i class="fas fa-paper-plane"></i>
+                        Schedule Campaign
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section id="analytics-section" class="dashboard-section">
+            <div class="analytics-grid">
+                <div class="metric-card animate-in">
+                    <i class="fas fa-paper-plane"></i>
+                    <h3>Total Sent</h3>
+                    <p id="total-sent">0</p>
+                </div>
+                <div class="metric-card animate-in">
+                    <i class="fas fa-envelope-open"></i>
+                    <h3>Opened</h3>
+                    <p id="total-opened">0</p>
+                </div>
+                <div class="metric-card animate-in">
+                    <i class="fas fa-mouse-pointer"></i>
+                    <h3>Clicked</h3>
+                    <p id="total-clicked">0</p>
+                </div>
+                <div class="metric-card animate-in">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Failed</h3>
+                    <p id="total-failed">0</p>
+                </div>
+            </div>
+            <div class="chart-container animate-in">
+                <canvas id="analytics-chart"></canvas>
+            </div>
+        </section>
+
+        <!-- Scheduled Emails Section -->
+        <section id="scheduled-section" class="dashboard-section">
+            <div class="card scheduled-emails-container animate-in">
+                <div class="table-header">
+                    <h2><i class="fas fa-clock"></i> Scheduled Emails</h2>
+                    <div class="search-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="email-search" placeholder="Search emails...">
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="scheduled-emails-table">
+                        <thead>
+                            <tr>
+                                <th>Email Address</th>
+                                <th>Scheduled Time</th>
+                                <th>Status</th>
+                                <th>Company</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scheduled-emails-list">
+                            <!-- JavaScript will populate this -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay">
+        <div class="loader"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
